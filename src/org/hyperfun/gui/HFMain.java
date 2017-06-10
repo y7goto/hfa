@@ -274,11 +274,24 @@ public class HFMain extends JApplet {
 	}
     }
 
+    // We need to extend Canvas3D and implement getMinimumSize() method to make
+    // Canvas3D shrinkable on JSplitPane.
+    private class MyCanvas3D extends Canvas3D {
+
+	public MyCanvas3D(GraphicsConfiguration config) {
+	    super(config);
+	}
+
+	public Dimension getMinimumSize() {
+	    return new Dimension(0, 0);
+	}
+    }
+
     private void jbInit() throws Exception {
 	this.setSize(new Dimension(640, 480));
 
 	GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
-	Canvas3D canvas = new Canvas3D(config);
+	Canvas3D canvas = new MyCanvas3D(config);
 	SimpleUniverse universe = new SimpleUniverse(canvas);
 	BranchGroup scene = createSceneGraph();
 	universe.addBranchGraph(scene);
